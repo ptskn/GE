@@ -1,0 +1,48 @@
+algo a
+créer fichier de mémoire sur pc dev : branche, en cours de dev, dernier commit, sprint actif, item actif...
+maj en fonction des choix opérés par user
+
+algo b
+créer nouvelles variables (environnement) sur dépôt : sprint ids, item ids
+
+algo 1
+push & 
+dev->git : push these files on this branch (fichier config locale pc dev)
+on push
+
+algo 2
+commit
+récupérer variables actives : sprint et item id
+demander au dev son commit message pour ce push
+concaténer les 3
+run( du workflow)
+
+algo 5
+nouvelle branche
+faire naviguer le dev pour trouver la branche parente
+demander nom de la nouvelle enfant
+créer ça ici
+
+algo20
+faire naviguer le dev pour trouver la branche
+checkout cette branche
+
+
+
+
+page 38 : variables d'environnement
+créer sur le site
+lire dans un workflow
+------------------
+page 43
+checkout
+steps:
+    - name: checkout code
+       uses: actions/checkout@v3
+       
+Matrix Strategy
+
+------------
+page 44 
+Using events to trigger workflow
+	

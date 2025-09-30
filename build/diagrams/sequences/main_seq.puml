@@ -1,0 +1,156 @@
+@startuml
+enum "mosq_err_t" as C_0017629346088488191036
+enum C_0017629346088488191036 {
+MOSQ_ERR_AUTH_CONTINUE
+MOSQ_ERR_NO_SUBSCRIBERS
+MOSQ_ERR_SUB_EXISTS
+MOSQ_ERR_CONN_PENDING
+MOSQ_ERR_SUCCESS
+MOSQ_ERR_NOMEM
+MOSQ_ERR_PROTOCOL
+MOSQ_ERR_INVAL
+MOSQ_ERR_NO_CONN
+MOSQ_ERR_CONN_REFUSED
+MOSQ_ERR_NOT_FOUND
+MOSQ_ERR_CONN_LOST
+MOSQ_ERR_TLS
+MOSQ_ERR_PAYLOAD_SIZE
+MOSQ_ERR_NOT_SUPPORTED
+MOSQ_ERR_AUTH
+MOSQ_ERR_ACL_DENIED
+MOSQ_ERR_UNKNOWN
+MOSQ_ERR_ERRNO
+MOSQ_ERR_EAI
+MOSQ_ERR_PROXY
+MOSQ_ERR_PLUGIN_DEFER
+MOSQ_ERR_MALFORMED_UTF8
+MOSQ_ERR_KEEPALIVE
+MOSQ_ERR_LOOKUP
+MOSQ_ERR_MALFORMED_PACKET
+MOSQ_ERR_DUPLICATE_PROPERTY
+MOSQ_ERR_TLS_HANDSHAKE
+MOSQ_ERR_QOS_NOT_SUPPORTED
+MOSQ_ERR_OVERSIZE_PACKET
+MOSQ_ERR_OCSP
+MOSQ_ERR_TIMEOUT
+MOSQ_ERR_RETAIN_NOT_SUPPORTED
+MOSQ_ERR_TOPIC_ALIAS_INVALID
+MOSQ_ERR_ADMINISTRATIVE_ACTION
+MOSQ_ERR_ALREADY_EXISTS
+}
+enum "mosq_opt_t" as C_0001872260695720319172
+enum C_0001872260695720319172 {
+MOSQ_OPT_PROTOCOL_VERSION
+MOSQ_OPT_SSL_CTX
+MOSQ_OPT_SSL_CTX_WITH_DEFAULTS
+MOSQ_OPT_RECEIVE_MAXIMUM
+MOSQ_OPT_SEND_MAXIMUM
+MOSQ_OPT_TLS_KEYFORM
+MOSQ_OPT_TLS_ENGINE
+MOSQ_OPT_TLS_ENGINE_KPASS_SHA1
+MOSQ_OPT_TLS_OCSP_REQUIRED
+MOSQ_OPT_TLS_ALPN
+MOSQ_OPT_TCP_NODELAY
+MOSQ_OPT_BIND_ADDRESS
+MOSQ_OPT_TLS_USE_OS_CERTS
+}
+class "mosquitto_message" as C_0013898167903263112968
+class C_0013898167903263112968 {
+__
++mid : int
++payload : void *
++payloadlen : int
++qos : int
++retain : bool
++topic : char *
+}
+class "libmosquitto_will" as C_0001979888342526055128
+class C_0001979888342526055128 {
+__
++payload : void *
++payloadlen : int
++qos : int
++retain : bool
++topic : char *
+}
+class "libmosquitto_auth" as C_0007214438920673433441
+class C_0007214438920673433441 {
+__
++password : char *
++username : char *
+}
+class "libmosquitto_tls" as C_0006054886257907596032
+class C_0006054886257907596032 {
+__
++cafile : char *
++capath : char *
++cert_reqs : int
++certfile : char *
++ciphers : char *
++keyfile : char *
++pw_callback : int (*)(char *,int,int,void *)
++tls_version : char *
+}
+class "MosquittoAsyncClient" as C_0007171019113611593589
+class C_0007171019113611593589 {
++MosquittoAsyncClient(const std::string & clientId, const std::string & host, int port) : void
++~MosquittoAsyncClient() : void
+..
++connect() : void
+-onConnect(int rc) : void
+-onMessage(const struct mosquitto_message * msg) : void
+-on_connect(struct mosquitto * mosq, void * obj, int reason_code) : void
+-on_subscribe(struct mosquitto * mosq, void * obj, int mid, int qos_count, const int * granted_qos) : void
++publish(const std::string & topic, const std::string & payload) : void
++setMessageCallback(MessageCallback cb) : void
++subscribe(const std::string & topic) : void
+__
+-clientId_ : std::string
+-host_ : std::string
+-messageCallback_ : MessageCallback
+-mosq_ : struct mosquitto *
+-mtx_ : std::mutex
+-port_ : int
+}
+class "MessageDispatcher" as C_0015369973585760059160
+class C_0015369973585760059160 {
++MessageDispatcher(size_t threadCount = 4) : void
++~MessageDispatcher() : void
+..
++enqueue<F>(F && task) : void
+__
+-cv_ : std::condition_variable
+-queueMtx_ : std::mutex
+-stop_ : std::atomic<bool>
+-tasks_ : std::queue<std::function<void ()>>
+-workers_ : std::vector<std::thread>
+}
+class "TransactionManager" as C_0006754754563958296658
+class C_0006754754563958296658 {
++executeInTransaction(std::function<void ()> action) : void
+__
+}
+class "ScheduledTask" as C_0010202741607388905850
+class C_0010202741607388905850 {
++ScheduledTask(std::chrono::seconds interval, std::function<void ()> task) : void
++~ScheduledTask() : void
+__
+-interval_ : std::chrono::seconds
+-stop_ : std::atomic<bool>
+-task_ : std::function<void ()>
+-thread_ : std::thread
+}
+class "mqtt5__property" as C_0001802525274294461320
+class C_0001802525274294461320 {
+__
+}
+class "mosquitto" as C_0010342126251679784343
+class C_0010342126251679784343 {
+__
+}
+C_0007171019113611593589 ..> C_0013898167903263112968
+C_0007171019113611593589 --> C_0010342126251679784343 : -mosq_
+
+'Generated with clang-uml, version 0.6.2
+'LLVM version Ubuntu clang version 18.1.3 (1ubuntu1)
+@enduml
